@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CreateItemRequest;
 use App\Http\Requests\ItemIndexRequest;
+use App\Http\Requests\UpdateItemRequest;
 use App\Http\Resources\ItemResource;
 use App\Models\Item;
 use App\Services\ItemService;
@@ -28,5 +30,33 @@ final class ItemController extends Controller
         );
 
         return ItemResource::collection($response);
+    }
+
+    public function store(CreateItemRequest $request): ItemResource
+    {
+        $response = $this->itemService->create($request->validated(), auth()->id());
+
+        return new ItemResource($response);
+    }
+
+    public function show(int $id): ItemResource
+    {
+        $response = $this->itemService->getById($id);
+
+        return new ItemResource($response);
+    }
+
+    public function update(int $id, UpdateItemRequest $request): ItemResource
+    {
+        $response = $this->itemService->update($request->validated(), $id);
+
+        return new ItemResource($response);
+    }
+
+    public function destroy(int $id): JsonResponse
+    {
+        $this->itemService->delete($id);
+
+        return response()->json(['message' => 'deleted'], 204);
     }
 }

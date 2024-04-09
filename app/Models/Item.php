@@ -7,6 +7,12 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
+/**
+ * @property string $name
+ * @property string $status
+ * @property string $description
+ * @property int $user_id
+ */
 class Item extends Model
 {
     use HasFactory;
@@ -22,9 +28,11 @@ class Item extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function setStatus(StatusEnum $status): void
+    public function setStatus(StatusEnum $status): self
     {
         $this->attributes['status'] = $status->value;
+
+        return $this;
     }
 
     public function getStatus(): StatusEnum

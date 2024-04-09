@@ -20,4 +20,32 @@ final readonly class ItemRepository
 
         return $query->paginate($perPage);
     }
+
+    public function create(array $data, int $userId): Item
+    {
+        $item = (new Item())->setStatus(StatusEnum::ACTIVE);
+
+        $item->user_id = $userId;
+        $item->name = $data['name'];
+        $item->description = $data['description'];
+
+        $item->save();
+
+        return $item;
+    }
+
+    public function getById(int $id)
+    {
+        return Item::find($id);
+    }
+
+    public function update(Item $item, array $data): void
+    {
+        $item->update($data);
+    }
+
+    public function delete(Item $item): void
+    {
+        $item->delete();
+    }
 }

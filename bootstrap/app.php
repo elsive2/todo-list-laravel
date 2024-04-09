@@ -1,6 +1,7 @@
 <?php
 
 use App\Exceptions\InvalidCredentialsException;
+use App\Exceptions\ItemNotFoundException;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -23,5 +24,8 @@ return Application::configure(basePath: dirname(__DIR__))
         });
         $exceptions->render(function (NotFoundHttpException $e) {
             return response()->json(['exception' => 'not_found'], Response::HTTP_NOT_FOUND);
+        });
+        $exceptions->render(function (ItemNotFoundException $e) {
+            return response()->json(['exception' => $e->getMessage()], $e->getCode());
         });
     })->create();
