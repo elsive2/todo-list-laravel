@@ -21,6 +21,7 @@ class ItemFactory extends Factory
             'name' => fake()->text(50),
             'description' => fake()->text(255),
             'status' => StatusEnum::ACTIVE->value,
+            'user_id' => 1,
         ];
     }
 }

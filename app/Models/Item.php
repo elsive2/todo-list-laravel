@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Enums\StatusEnum;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Item extends Model
 {
@@ -13,7 +14,13 @@ class Item extends Model
     protected $fillable = [
         'name',
         'description',
+        'status'
     ];
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
 
     public function setStatus(StatusEnum $status): void
     {
